@@ -1,0 +1,6 @@
+const max = 100;
+var_int arg, ret;
+var_string arg1, ret1;
+begin
+    a := b
+end.

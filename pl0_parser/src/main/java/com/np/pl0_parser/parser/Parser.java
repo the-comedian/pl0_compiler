@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.np.pl0_parser;
+package com.np.pl0_parser.parser;
 
+import com.np.pl0_parser.pojo.ParserException;
+import com.np.pl0_parser.constants.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +47,12 @@ public class Parser {
     private boolean acceptSymbol(String symbol) {
         if (symbol.equals(Constants.IDENT_REGEX)) {
             if (this.currentSymbol.matches(symbol)) {
+                nextSymbol();
+                return true;
+            }
+        }
+        if (symbol.equals(Constants.NUMBER_REGEX)) {
+             if (this.currentSymbol.matches(symbol)) {
                 nextSymbol();
                 return true;
             }
@@ -100,6 +108,11 @@ public class Parser {
             tempCode = tempCode.replace(delimiter, " " + delimiter + " ");
         }
         List<String> result = new ArrayList<>(Arrays.asList(tempCode.replaceAll("\\s+", " ").split(" ")));
+        for (int i = 0; i < result.size(); i++) {
+            if (result.get(i).equals("@")) {
+                result.set(i, ":=");
+            }
+        }
         return result;
     }
 
@@ -160,7 +173,7 @@ public class Parser {
         expectSymbol(Constants.IDENT_REGEX);
         expectSymbol(Constants.SEMICOLON);
         processBlock();
-        expectSymbol(Constants.POINT);
+        expectSymbol(Constants.SEMICOLON);
     }
 
     private void processFactor() throws ParserException {
@@ -189,7 +202,7 @@ public class Parser {
         processTerm();
         while (this.currentSymbol.equals(Constants.PLUS) || this.currentSymbol.equals(Constants.MINUS)) {
             nextSymbol();
-            this.processTerm();
+            processTerm();
         }
     }
 
@@ -224,6 +237,10 @@ public class Parser {
             processCondition();
             expectSymbol(Constants.DO);
             processStatement();
+        } else if (acceptSymbol(Constants.IN)) {
+            processIdent();
+        } else if (acceptSymbol(Constants.OUT)) {
+            processExpression();
         } else if (processIdent()) {
             expectSymbol(Constants.ASSIGN);
             processExpression();

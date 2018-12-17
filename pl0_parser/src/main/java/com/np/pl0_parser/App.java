@@ -5,6 +5,8 @@
  */
 package com.np.pl0_parser;
 
+import com.np.pl0_parser.parser.Parser;
+import com.np.pl0_parser.pojo.ParserException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.np.pl0_parser;
+package com.np.pl0_parser.constants;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public class Constants {
     public static final String VAR_STRING = "var_string";
     public static final String COMMA = ",";
     // арифметические операции
-    public static final String ASSIGN = "@";
+    public static final String ASSIGN = ":=";
     public static final String PLUS = "+";
     public static final String MINUS = "-";
     public static final String TIMES = "*";

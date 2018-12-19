@@ -1,8 +1,17 @@
-const max = 100, min = 20060;
-var_int arg, ret;
-var_string arg1, a2;
+var_int start, finish;
 
+procedure incrementor;
 begin
-    ret := 100;
-    arg := -(1 + 2) / 100 + ret
-end.
+    ! "start";
+    ? start;
+    ! "finish";
+    ? finish;
+    while start < finish do
+    begin
+        start := start + 1;
+        ! start
+    end
+end;
+
+call incrementor
+.

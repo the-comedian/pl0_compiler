@@ -50,6 +50,12 @@ public class PLBase {
                 return true;
             }
         }
+        if (symbol.equals(Constants.STRING_REGEX)) {
+            if (this.currentSymbol.matches(symbol)) {
+                nextSymbol();
+                return true;
+            }
+        }
         if (this.currentSymbol.equals(symbol)) {
             nextSymbol();
             return true;

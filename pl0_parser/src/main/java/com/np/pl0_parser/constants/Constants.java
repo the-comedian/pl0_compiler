@@ -75,5 +75,6 @@ public class Constants {
     
     public static final String IDENT_REGEX = "^[a-zA-Z_][a-zA-Z_0-9]*";
     public static final String NUMBER_REGEX = "^[-+]?\\d*$";
-   
+    public static final String STRING_REGEX = "(\"([^\"]|\"\")*\")";
+
 }

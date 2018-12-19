@@ -30,7 +30,7 @@ public class Parser extends PLBase{
      * @return
      */
     private List<String> normalizeProgramCode(String programCode) {
-        String tempCode = programCode.replaceAll(":=", "@");
+        String tempCode = programCode.replaceAll(":=", " @ ");
         tempCode = tempCode.replaceAll("\\s+", " ");
         for (String delimiter : Constants.DELIMITERS) {
             tempCode = tempCode.replace(delimiter, " " + delimiter + " ");
@@ -107,6 +107,7 @@ public class Parser extends PLBase{
     private void processFactor() throws ParserException {
         if (processIdent()) {
         } else if (acceptSymbol(Constants.NUMBER_REGEX)) {
+        } else if (acceptSymbol(Constants.STRING_REGEX)) {
         } else if (acceptSymbol(Constants.LPAREN)) {
             processExpression();
             expectSymbol(Constants.RPAREN);
@@ -169,8 +170,7 @@ public class Parser extends PLBase{
             processIdent();
         } else if (acceptSymbol(Constants.OUT)) {
             processExpression();
-        } else if (acceptSymbol(Constants.IDENT_REGEX)) {
-            processIdent();
+        } else if (processIdent()) {
             expectSymbol(Constants.ASSIGN);
             processExpression();
         } else {

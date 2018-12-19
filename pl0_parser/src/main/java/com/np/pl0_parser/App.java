@@ -7,7 +7,10 @@ package com.np.pl0_parser;
 
 import com.np.pl0_parser.parser.PLCompiler;
 import com.np.pl0_parser.parser.Parser;
+import com.np.pl0_parser.parser.Translator;
 import com.np.pl0_parser.pojo.ParserException;
+
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -28,9 +31,11 @@ public class App {
         String programCode = readFile("input.txt", Charset.forName("utf-8"));
         Parser parser = new Parser();
         List<String> symbols = parser.parse(programCode);
-        PLCompiler compiler = new PLCompiler();
-        compiler.compile(symbols);
-        
+        Translator translator = new Translator();
+        String translateRes = translator.translate(symbols);
+        FileWriter writer = new FileWriter("res.js");
+        writer.write(translateRes);
+        writer.close();
     }
 
     static String readFile(String path, Charset encoding) throws IOException {

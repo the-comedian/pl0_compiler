@@ -15,86 +15,14 @@ import java.util.List;
  *
  * @author npetrov_2
  */
-public class Parser {
+public class Parser extends PLBase{
 
-    private List<String> symbols = null;
-    private int symbolId = 0;
-    private String currentSymbol = null;
-
-    public void parse(String programCode) throws ParserException {
+    public List<String> parse(String programCode) throws ParserException {
         this.symbols = normalizeProgramCode(programCode);
         nextSymbol();
         processBlock();
+        return symbols;
     }
-
-    /**
-     * Получение следующей лексемы
-     *
-     * @return
-     */
-    private String nextSymbol() {
-        this.currentSymbol = this.symbols.get(symbolId);
-        symbolId++;
-        return this.currentSymbol;
-    }
-
-    /**
-     * Принимаемый символ
-     *
-     * @param symbol
-     * @return
-     */
-    private boolean acceptSymbol(String symbol) {
-        if (symbol.equals(Constants.IDENT_REGEX)) {
-            if (this.currentSymbol.matches(symbol)) {
-                nextSymbol();
-                return true;
-            }
-        }
-        if (symbol.equals(Constants.NUMBER_REGEX)) {
-             if (this.currentSymbol.matches(symbol)) {
-                nextSymbol();
-                return true;
-            }
-        }
-        if (this.currentSymbol.equals(symbol)) {
-            nextSymbol();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Ожидаемый символ
-     *
-     * @param symbol
-     * @return
-     * @throws ParserException
-     */
-    private boolean expectSymbol(String symbol) throws ParserException {
-        if (symbol.equals(Constants.NUMBER_REGEX)) {
-            if (this.currentSymbol.matches(Constants.NUMBER_REGEX)) {
-                nextSymbol();
-                return true;
-            } else {
-                throw new ParserException("Error while parsing: invalid number " + this.currentSymbol);
-            }
-        }
-        if (symbol.equals(Constants.IDENT_REGEX)) {
-            if (this.currentSymbol.matches(Constants.IDENT_REGEX)) {
-                nextSymbol();
-                return true;
-            } else {
-                throw new ParserException("Error while parsing: invalid ident " + this.currentSymbol);
-            }
-        }
-        if (this.currentSymbol.equals(symbol)) {
-            nextSymbol();
-            return true;
-        }
-        throw new ParserException("Error while parsing: expected " + symbol + " got " + this.currentSymbol);
-    }
-
     /**
      * Метод для нормализации кода программы
      *
@@ -241,7 +169,8 @@ public class Parser {
             processIdent();
         } else if (acceptSymbol(Constants.OUT)) {
             processExpression();
-        } else if (processIdent()) {
+        } else if (acceptSymbol(Constants.IDENT_REGEX)) {
+            processIdent();
             expectSymbol(Constants.ASSIGN);
             processExpression();
         } else {

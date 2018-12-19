@@ -34,6 +34,8 @@ public class Constants {
             add(GREATER_OR_EQUAL);
             add(LESS_OR_EQUAL);
             add(NOT_EQUAL);
+            add(LPAREN);
+            add(RPAREN);
         }
     };
     // служебные слова

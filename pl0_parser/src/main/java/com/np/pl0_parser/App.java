@@ -5,12 +5,15 @@
  */
 package com.np.pl0_parser;
 
+import com.np.pl0_parser.parser.PLCompiler;
 import com.np.pl0_parser.parser.Parser;
 import com.np.pl0_parser.pojo.ParserException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import javax.script.ScriptException;
 
 /**
  *
@@ -21,10 +24,13 @@ public class App {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException, ParserException {
+    public static void main(String[] args) throws IOException, ParserException, ScriptException {
         String programCode = readFile("input.txt", Charset.forName("utf-8"));
         Parser parser = new Parser();
-        parser.parse(programCode);
+        List<String> symbols = parser.parse(programCode);
+        PLCompiler compiler = new PLCompiler();
+        compiler.compile(symbols);
+        
     }
 
     static String readFile(String path, Charset encoding) throws IOException {
